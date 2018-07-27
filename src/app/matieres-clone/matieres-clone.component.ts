@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import {Matiere} from './matieres.interface';
-import {Router} from "@angular/router";
-import {Observable} from "rxjs/Rx";
-import {AppState} from "../store/index";
-import {select, Store} from "@ngrx/store";
 import {MatiereListModule} from "../store/actions/matiere.action";
+import {Observable} from "rxjs/Rx";
+import {Matiere} from "../matieres/matieres.interface";
+import {select, Store} from "@ngrx/store";
+import {AppState} from "../store/index";
 import {selectMatiereListEntitiesConverted$, selectMatieresLoading$} from "../store/selectors/matiere.selector";
 
 @Component({
-  selector: 'app-matieres',
-  templateUrl: './matieres.component.html',
-  styleUrls: ['./matieres.component.css']
+  selector: 'app-matieres-clone',
+  templateUrl: './matieres-clone.component.html',
+  styleUrls: ['./matieres-clone.component.css']
 })
-export class MatieresComponent implements OnInit {
+export class MatieresCloneComponent implements OnInit {
 
   public matieres$: Observable<Matiere[]>;
   public  matieresLoading: Observable<boolean>;
 
-  constructor(private router: Router, private store: Store<AppState>) {
+  constructor(private store: Store<AppState>) {
     this.matieres$ = store
       .pipe(select(selectMatiereListEntitiesConverted$));
 
@@ -26,10 +25,6 @@ export class MatieresComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new  MatiereListModule.LoadInitMatieres());
-  }
-
-  goToAddMatiere () {
-    this.router.navigateByUrl('/ajout-matiere');
   }
 
   deleteMatiere(id: number) {
